@@ -1,0 +1,43 @@
+package com.shepherd.spring_boot_full_text_search.service;
+
+import com.shepherd.spring_boot_full_text_search.controller.ArticleController;
+import com.shepherd.spring_boot_full_text_search.data.model.Article;
+import com.shepherd.spring_boot_full_text_search.data.repository.ArticleRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class ArticleServiceImpl implements ArticleService {
+    private final ArticleRepository articleRepository;
+
+
+    @Override
+    public List<Article> getAllArticles() {
+        return articleRepository.findAll();
+    }
+
+    @Override
+    public Article getArticleById(UUID id) {
+        return articleRepository.findById(id).orElseThrow(
+                ()-> new RuntimeException("Article with the provided id not found."));
+    }
+
+    @Override
+    public Article createArticle(Article article) {
+        return articleRepository.save(article);
+    }
+
+    @Override
+    public void deleteArticle(UUID id) {
+        articleRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Article> searchArticles(String searchText) {
+        return articleRepository.findArticlesBySearchText(searchText);
+    }
+}
