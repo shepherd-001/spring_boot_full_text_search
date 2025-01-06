@@ -10,4 +10,6 @@ public interface ArticleService {
     Article getArticleById(UUID id);
     Article createArticle(Article article);
     void deleteArticle(UUID id);
-    List<Article> searchArticles(String searchText);}
+    List<Article> searchArticles(String searchText);
+    List<Article> findArticles(String searchText);
+}

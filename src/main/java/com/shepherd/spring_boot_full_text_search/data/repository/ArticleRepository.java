@@ -17,6 +17,12 @@ public interface ArticleRepository extends JpaRepository<Article, UUID> {
             "LOWER(a.keywords) LIKE LOWER(CONCAT('%', :searchText, '%'))")
     List<Article> findArticlesBySearchText(@Param("searchText") String searchText);
 
+    @Query(value = """
+            select * from articles where match(content, title, author, category,\s
+                                        keywords) against(:searchText in boolean mode)
+           \s""", nativeQuery = true)
+    List<Article> findAllArticlesBySimpleQuery(@Param("searchText") String searchText);
+
     List<Article> findByAuthor(String author);
 
     List<Article> findByTitle(String title);

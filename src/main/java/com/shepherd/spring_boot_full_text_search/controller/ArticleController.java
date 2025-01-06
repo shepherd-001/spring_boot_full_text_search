@@ -47,4 +47,14 @@ public class ArticleController {
             return ResponseEntity.noContent().build();
         }
     }
+
+    @GetMapping("/find")
+    public ResponseEntity<List<Article>> findArticles(@RequestParam String searchText) {
+        List<Article> foundArticles = articleService.findArticles(searchText);
+        if (!foundArticles.isEmpty()) {
+            return ResponseEntity.ok(foundArticles);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
 }

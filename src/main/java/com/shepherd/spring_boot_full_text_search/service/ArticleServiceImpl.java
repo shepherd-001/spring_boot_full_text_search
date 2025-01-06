@@ -1,6 +1,5 @@
 package com.shepherd.spring_boot_full_text_search.service;
 
-import com.shepherd.spring_boot_full_text_search.controller.ArticleController;
 import com.shepherd.spring_boot_full_text_search.data.model.Article;
 import com.shepherd.spring_boot_full_text_search.data.repository.ArticleRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,5 +38,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> searchArticles(String searchText) {
         return articleRepository.findArticlesBySearchText(searchText);
+    }
+
+    @Override
+    public List<Article> findArticles(String searchText) {
+        return articleRepository.findAllArticlesBySimpleQuery(searchText);
     }
 }
