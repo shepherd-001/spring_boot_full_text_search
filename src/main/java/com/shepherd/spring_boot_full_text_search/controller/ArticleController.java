@@ -1,8 +1,11 @@
 package com.shepherd.spring_boot_full_text_search.controller;
 
+import com.shepherd.spring_boot_full_text_search.data.dto.request.ArticleSearchRequest;
+import com.shepherd.spring_boot_full_text_search.data.dto.response.ArticleSearchResponse;
 import com.shepherd.spring_boot_full_text_search.data.model.Article;
 import com.shepherd.spring_boot_full_text_search.service.ArticleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,8 +52,9 @@ public class ArticleController {
     }
 
     @GetMapping("/find")
-    public ResponseEntity<List<Article>> findArticles(@RequestParam String searchText) {
-        List<Article> foundArticles = articleService.findArticles(searchText);
+    public ResponseEntity<Page<ArticleSearchResponse>> findArticles(@RequestBody ArticleSearchRequest searchRequest) {
+        Page<ArticleSearchResponse> foundArticles = articleService.findArticles(searchRequest);
+
         if (!foundArticles.isEmpty()) {
             return ResponseEntity.ok(foundArticles);
         } else {
